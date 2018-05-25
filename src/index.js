@@ -6,6 +6,8 @@ import YTSearch from 'youtube-api-search';
 
 // import SearchBar from search_bar.js inside of components folder
 import SearchBar from './components/search_bar';
+import VideoList from './components/video_list';
+import VideoDetail from './components/video_detail';
 // import key
 const API_KEY = "AIzaSyCk2w7xaSOKqprqBP67CEwW9YoCgE1pQ1k";
 
@@ -15,15 +17,23 @@ const API_KEY = "AIzaSyCk2w7xaSOKqprqBP67CEwW9YoCgE1pQ1k";
 class App extends Component {
   constructor(props) {
     super (props);
-    this.state = {videos: []};
-    YTSearch ({key:API_KEY, term:'qing yun zhi'}, (videos) =>{
-      this.setState({videos});
+    this.state = {
+      videos: [],
+      selectedVideo: null
+    };
+    YTSearch ({key:API_KEY, term:'qing yun zhi'}, (returnedVideos) =>{
+      this.setState({
+        videos:returnedVideos,
+        selectedVideo: returnedVideos[0]
+      });
     });
   }
   render (){
     return (
       <div>
         <SearchBar />
+        <VideoDetail video= {this.state.selectedVideo}/>
+        <VideoList videos={this.state.videos}/>
       </div>
     );
   };
